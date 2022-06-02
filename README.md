@@ -17,7 +17,7 @@ Note to Ron: I will directly answer the specific questions at the end of each se
 
 `source="windows_server_logs.csv" host=windows_server_logs | top limit=20 signature`
 
-![signatures_baseline][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/1_signatures_baseline.png]
+![signatures_baseline](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/1_signatures_baseline.png)
 
 ---
 
@@ -31,7 +31,7 @@ Note that I have removed the "OTHER" category as it was not visually semantic to
 
 `source="windows_server_logs.csv" host=windows_server_logs | timechart count by user useother=f`
 
-![user_baseline][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/2_user_baseline.png]
+![user_baseline](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/2_user_baseline.png)
 
 ---
 
@@ -48,7 +48,7 @@ These 3 signatures are (1) different from baseline and (2) appearing in much hig
 
 `source="windows_server_attack_logs.csv" host=windows_server_attack_logs | top limit=20 signature`
 
-![attack_signatures][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/3_attack_signatures.png]
+![attack_signatures](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/3_attack_signatures.png)
 
 ---
 
@@ -59,11 +59,11 @@ These 3 signatures are (1) different from baseline and (2) appearing in much hig
 - user_a - A user account was locked out
 - user_j - An account was succesfully logged on
 
-![users_signatures_correlation][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/4_1_users_signatures_correlation.png]
+![users_signatures_correlation](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/4_1_users_signatures_correlation.png)
 
 We can also check if we've missed any suspect users by viewing top users. This confirms that there are accounts to follow-up on:
 
-![top_users][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/4_2_top_users.png]
+![top_users](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/4_2_top_users.png)
 
 **Search Queries:**
 
@@ -95,11 +95,11 @@ Another way to determine this would be to match the spike in user activity with 
 
 Here is evidence of the brute force attack filtered specifically for `user_k`:
 
-![user_k_signatures][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_k_signatures.png]
+![user_k_signatures](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_k_signatures.png)
 
 Here is the same log with the the password reset attempt signature removed in order to see if anything else occured at the same time. Since there were no other actions associated with the account, we can conclude that they were not successfully hacked.
 
-![user_k_signatures_II][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_k_signatures_II.png]
+![user_k_signatures_II](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_k_signatures_II.png)
 
 
 ### User Migitation Recommendations
@@ -124,15 +124,15 @@ Filtuer by signature to view if other activities occured at the time of the susp
 
 Here is evidence of the brute force attack filtered specifically for `user_a`:
 
-![user_a_signatures][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_a_signatures.png]
+![user_a_signatures](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_a_signatures.png)
 
 We can see that the user account was locked out during the time between Tues, March 24th 2022 at approximately 8pm to 11pm. 
 
-![user_a_signatures_for_time][https://github.com/yffenim/splunk_attack_visualizations/blob/main/images/user_a_filtered_by_signature_for_time.png]
+![user_a_signatures_for_time](https://github.com/yffenim/splunk_attack_visualizations/blob/main/images/user_a_filtered_by_signature_for_time.png)
 
 In order to check account activity within that timeframe, we can filter by time and remove the account lockout signature we already know. From here, we can see despite the account lockout, many changes to the account occured which is evidence of compromise.
 
-![user_a_signatures_filtered][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_a_filtered_by_signature_for_time_II.png]
+![user_a_signatures_filtered](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_a_filtered_by_signature_for_time_II.png)
 
 
 ## User Migitation Recommendations**
@@ -153,11 +153,11 @@ Filter by time with locked-out signature removed:
 
 This log shows that someone was able to successfully logon to this `user_j`'s account:
 
-![user_j_signatures][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_j%20_signatures.png']
+![user_j_signatures](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_j%20_signatures.png)
 
 Interestingly, when we filter out the logon signature, we do not see any suspicious account activity logged. In addition, none of the activites after the logon timeframe are evidently suspicious as they are similar in volume to baseline. 
 
-![user_j_signatures_filtered][https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_j_signatures_II.png]
+![user_j_signatures_filtered](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/user_j_signatures_II.png)
 
 **Migitation Recommendations**
 
@@ -177,33 +177,34 @@ Filter by time with logged-on signature removed:
 
 First, we can use the Splunk command `iplocation clientip` to extract the `Country` of origin for the requests to make the data more human-readable and establish a baseline:
 
-![apache_baseline_countries][]
+![apache_baseline_countries](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/apache_baseline_countries.png)
 
 When we compare this to the same filter using the attack logs, we can see that Ukraine has the second most incoming requests whereas they are not normally notable.
 
-![apache_attack_countries][]
+![apache_attack_countries](https://github.com/yffenim/splunk_attack_visualizations/blob/main/images/apache_attack_countries.png)
 
 Since this is a web attack, we can also filter by request method to establish a baseline for request types. We can see that it's mostly `GET` requests on a normal day:
 
-![apache_baseline_country_method][]
+![apache_baseline_country_method](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/apache_baseline_country_method.png)
 
 Running the same filter on the attack logs shows that we suddenly have an high volume of `POST` requests (which means that someone is attempt to submit data to the server; mostly a `LOGON` attempt in this case) coming from Ukraine and United States. This further suggests that Ukraine is where our attack originates from. Since there are also `POST` requests originating from the US, it's  possible that the American servers have been compromised and are now sending data back to the Ukraine:
 
-![apache_attack_country_method][]
+![apache_attack_country_method](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/apache_baseline_country_method.png)
 
 Using the `geostats` command as requested by the assignment though the comparison isn't very semantically useful as a visualization.
 
-![apache_baseline_geo][]
+![apache_baseline_geo](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/apache_baseline_geo.png)
 
-![apache_attack_geo][]
+![apache_attack_geo](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/apache_attack_geo.png)
 
 A way to improve the results would be to add the `method` filter:
 
-![apache_attack_geo_method][]
+![apache_attack_geo_method](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/apache_attack_geo_method.png)
+
 
 ### Recommended Firewall Rule & Description 
 
 We recommened setting up a rule that will block repeated and consecutive `POST` requests from the same `IP`. We can also implement user lockout if there are repeated `LOGON` attempts above an established baseline. 
 
-In plaintext, the firewall: "Block all incoming HTTP traffic from the same IP if there are a lot of consecutive requests within a period of time."
+In plain words, the firewall rule: "Block all incoming HTTP traffic from the same IP if there are a lot of consecutive requests within a period of time." 
 
