@@ -35,7 +35,7 @@ Note that I have removed the "OTHER" category as it was not visually semantic to
 
 ---
 
-## 3. Visualizing Data from Windows Attack Server Logs by Signature and User
+## 3. Visualizing Data from Windows Attack Server Logs by Signature
 
 **We can see that top 3 signatures during teh attack are:**
 - "An attempt was made to reset an accounts password"
