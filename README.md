@@ -37,7 +37,7 @@ Note that I have removed the "OTHER" category as it was not visually semantic to
 
 ## 3. Visualizing Data from Windows Attack Server Logs by Signature
 
-**We can see that top 3 signatures during teh attack are:**
+**We can see that top 3 signatures during the attack are:**
 - "An attempt was made to reset an accounts password"
 - "A user account was locked out"
 - "An account was successfully logged on"
@@ -54,7 +54,7 @@ These 3 signatures are (1) different from baseline and (2) appearing in much hig
 
 ## 4. Find the user accounts associated with high volumes of these three signatures:
 
-**We can see that our focus needs to be on the following users connected to the following signatures:**
+**We can see that our focus needs to be on the following users by showing the correlation between the user accounts to the attack signatures:**
 - user_k - An attempt was made to reset an accounts password
 - user_a - A user account was locked out
 - user_j - An account was succesfully logged on
