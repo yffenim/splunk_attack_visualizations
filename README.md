@@ -71,7 +71,7 @@ Filter by user and signature, displaying field for accounts status:
 
 (Note to click on `count` after running query as we are interested in the top count)
 
-`source="windows_server_attack_logs.csv" host="windows_server_attack_logs" | eval account_status=if(signature="An attempt was made to reset an accounts password" OR signature="A user account was locked out" OR signature="An account was successfully logged on", "Account Possibly Compromised", "Not Compromised") | top account_status by user, signature`
+`source="windows_server_attack_logs.csv" host="windows_server_attack_logs" | eval account_status=if(signature IN ("An attempt was made to reset an accounts password","A user account was locked out","An account was successfully logged on"), "Account Possibly Compromised", "Not Compromised") | top account_status by user, signature`
 
 Confirm top users:
 `source="windows_server_attack_logs.csv" host="windows_server_attack_logs"| top limit=10 user`
@@ -189,7 +189,7 @@ Since this is a web attack, we can also filter by request method to establish a 
 
 Running the same filter on the attack logs shows that we suddenly have an high volume of `POST` requests (which means that someone is attempt to submit data to the server; mostly a `LOGON` attempt in this case) coming from Ukraine and United States. This further suggests that Ukraine is where our attack originates from. Since there are also `POST` requests originating from the US, it's  possible that the American servers have been compromised and are now sending data back to the Ukraine:
 
-![apache_attack_country_method](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/apache_baseline_country_method.png)
+![apache_attack_country_method](https://raw.githubusercontent.com/yffenim/splunk_attack_visualizations/main/images/apache_attack_country_method.png)
 
 Using the `geostats` command as requested by the assignment though the comparison isn't very semantically useful as a visualization.
 
